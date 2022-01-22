@@ -2,47 +2,163 @@ import React, { Component, useState } from "react";
 import "./Calculator.css";
 import Button from "../components/Button.jsx";
 import Display from "../components/Display.jsx";
-import { getAllByLabelText } from "@testing-library/react";
 
-const clearMemory = () => {
-  console.log("limpar");
-};
-const setOperation = (operation) => {
-  console.log(operation);
-};
-const addDigit = (n) => {
-  console.log(n);
+const initialState = {
+  displayValue: "0",
+  clearDisplay: false,
+  operation: null,
+  values: [0, 0],
+  current: 0,
 };
 
 const Calculator = () => {
-  //   const botoes = [
-  //     "AC",
-  //     "/",
-  //     "7",
-  //     "8",
-  //     "9",
-  //     "*",
-  //     "4",
-  //     "5",
-  //     "6",
-  //     "-",
-  //     "1",
-  //     "2",
-  //     "3",
-  //     ".",
-  //     "=",
-  //   ];
+  const { displayValue, clearDisplay, values, current, operation } =
+    initialState;
+  const [val, setval] = useState(values);
+  const [atual, setatual] = useState(current);
+  const [display, setDisplay] = useState(displayValue);
+  const [clear, setClear] = useState(clearDisplay);
+  const [op, setOp] = useState(operation);
+  let state = { ...initialState };
+  const empty = () => {
+    setDisplay(displayValue);
+    setatual(0);
+  };
 
-  //   const [data, setData] = useState("0");
+  const clearMemory = () => {
+    empty();
+    console.log(display);
+  };
+  const setOperation = (operation) => {
+    if (atual === 0) {
+      setatual(1);
+      setOp(operation);
+      setClear(true);
+      return;
+    }
+    const calcular = operation === "=";
+    const currentOperation = op;
 
-  //   const printarNaTela = (display) => {
-  //     setData(display);
-  //     console.log(data);
-  //   };
+    const valores = [...val];
 
+    const Displaycontrol = () => {
+      let SOop = calcular ? null : operation;
+      setOp(SOop);
+
+      let SOatual = calcular ? 0 : 1;
+      setatual(SOatual);
+      let CDisplay = true;
+      setClear(CDisplay);
+      console.log(`Displaycontrol: ${clear}`);
+    };
+
+    const Soma = () => {
+      let somar = valores[0] + valores[1];
+      valores[0] = somar;
+      valores[1] = 0;
+
+      setval(valores);
+      setatual(0);
+      setDisplay(valores[0]);
+
+      Displaycontrol();
+    };
+    const Subtrair = () => {
+      let subtrai = valores[0] - valores[1];
+      valores[0] = subtrai;
+      valores[1] = 0;
+
+      setval(valores);
+      setatual(0);
+      setDisplay(valores[0]);
+
+      Displaycontrol();
+    };
+    const Dividir = () => {
+      let Divide = valores[0] / valores[1];
+      valores[0] = Divide;
+      valores[1] = 0;
+
+      setval(valores);
+      setatual(0);
+      setDisplay(valores[0]);
+
+      Displaycontrol();
+    };
+    const Multiplicar = () => {
+      let Multiplica = valores[0] * valores[1];
+      valores[0] = Multiplica;
+      valores[1] = 0;
+
+      setval(valores);
+      setatual(0);
+      setDisplay(valores[0]);
+
+      Displaycontrol();
+    };
+    const Resultado = () => {
+      let result = eval(`${valores[0]}${currentOperation}${valores[1]}`);
+      valores[0] = result;
+      valores[1] = 0;
+
+      setval(valores);
+      setatual(0);
+      setDisplay(valores[0]);
+
+      Displaycontrol();
+    };
+
+    const Calculando = (operation) => {
+      switch (operation) {
+        case "+":
+          Soma();
+          break;
+        case "-":
+          Subtrair();
+          break;
+        case "/":
+          Dividir();
+          break;
+        case "*":
+          Multiplicar();
+          break;
+        case "=":
+          Resultado();
+          break;
+      }
+    };
+    Calculando(operation);
+    let SOop = calcular ? null : operation;
+    setOp(SOop);
+
+    let SOatual = calcular ? 0 : 1;
+    setatual(SOatual);
+    return;
+  };
+  const addDigit = (n) => {
+    if (n === "." && display.includes(".")) {
+      return;
+    }
+    let CDisplay = display === "0" || clear;
+
+    const currentState = CDisplay ? "" : display;
+    var SDisplay = currentState + n;
+    setDisplay(SDisplay);
+    setClear(false);
+    console.log(`Add digit: ${clear}`);
+
+    if (n !== ".") {
+      const i = atual;
+      const newValue = parseFloat(SDisplay);
+      let valor = [...val];
+      valor[i] = newValue;
+      setval(valor);
+    }
+  };
+  console.log(val);
   return (
     <div className="Calculator">
-      <Display value="0" />
+      <Display value={display} />
       <Button label="AC" click={() => clearMemory()} triple />
       <Button label="/" click={(o) => setOperation(o)} operation />
       <Button label="7" click={(n) => addDigit(n)} />
