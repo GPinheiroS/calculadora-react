@@ -1,22 +1,25 @@
 :root {
-  --bg-button: rgb(6, 0, 58);
-  --bd-button: solid 1px rgb(0, 0, 0);
+  --bg-button: rgb(32, 35, 54);
 }
 .button {
+  font-family: "Outfit";
   font-size: 1.4em;
   background-color: var(--bg-button);
-  border: var(--bd-button);
+  border-radius: 5px;
+  border: 0px;
   color: rgb(211, 211, 211);
-  outline: none;
+  margin: 4px;
 }
 .button.operation {
-  background-color: rgb(63, 0, 55);
+  font-family: "Outfit-light";
+  color: rgb(32, 35, 54);
+  background-color: rgb(79, 203, 220);
 }
 .button:active {
-  background-color: rgb(1, 0, 12);
+  background-color: hsl(232deg 26% 13%);
 }
 .button.operation:active {
-  background-color: rgb(49, 0, 43);
+  background-color: hsl(187deg 67% 45%);
 }
 .button.double {
   grid-column: span 2;
