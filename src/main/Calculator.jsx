@@ -49,7 +49,6 @@ const Calculator = () => {
       setatual(SOatual);
       let CDisplay = true;
       setClear(CDisplay);
-      console.log(`Displaycontrol: ${clear}`);
     };
 
     const Soma = () => {
@@ -145,8 +144,6 @@ const Calculator = () => {
     var SDisplay = currentState + n;
     setDisplay(SDisplay);
     setClear(false);
-    console.log(`Add digit: ${clear}`);
-
     if (n !== ".") {
       const i = atual;
       const newValue = parseFloat(SDisplay);
